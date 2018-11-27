@@ -171,6 +171,9 @@ bar {
 }
 
 for_window [class="feh"] floating enable
+for_window [class="Matplotlib"] floating enable
+
+
 floating_maximum_size 1680 x 1050
 
 
