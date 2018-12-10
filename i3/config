@@ -100,16 +100,37 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Touchpad controls
+bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+
 
 set $w1 1 Ranger 
-set $w2 2 Web 
+set $w2 2 Mail 
+set $w3 3 Web 
 
 # switch to workspace
 #bindsym $mod+1 workspace 1
 bindsym $mod+1 workspace $w1
 #bindsym $mod+2 workspace 2
 bindsym $mod+2 workspace $w2
-bindsym $mod+3 workspace 3
+#bindsym $mod+3 workspace 3
+bindsym $mod+3 workspace $w3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
@@ -121,8 +142,10 @@ bindsym $mod+0 workspace 10
 # move focused container to workspace
 #bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+1 move container to $w1 
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
+#bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+2 move container to $w2
+#bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+3 move container to $w3 
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
@@ -187,5 +210,16 @@ exec xmodmap -e "pointer = 3 2 1 4 5 6 7 8 9"
 exec xset dpms 600 600 600
 
 
-exec --no-startup-id i3-msg $w1; exec stterm  -f "Inconsolata:pixelsize=33:antialias=true:autohint=true" python3 local/src/ranger/ranger.py
+#exec --no-startup-id i3-msg 'workspace $w1; exec stterm  -f "Inconsolata:pixelsize=33:antialias=true:autohint=true" python3 local/src/ranger/ranger.py'
+#exec --no-startup-id i3-msg 'workspace $w1; exec stterm'
 #exec --no-startup-id i3-msg workspace $w1; exec stterm
+#exec --no-startup-id i3-msg 'workspace $w2; exec thunderbird'
+#exec --no-startup-id i3-msg 'workspace $w3; exec firefox'
+exec --no-startup-id i3-msg 'exec stterm -T Ranger -f "Inconsolata:pixelsize=33:antialias=true:autohint=true" python3 local/src/ranger/ranger.py'
+exec --no-startup-id i3-msg 'exec firefox'
+exec --no-startup-id i3-msg 'exec thunderbird'
+
+
+assign [title="Ranger"] $w1
+assign [class="Thunderbird"] $w2
+assign [class="Firefox"] $w3
